@@ -1,71 +1,42 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Stars, PerspectiveCamera } from '@react-three/drei';
 import GlacierModel from './GlacierModel';
+import MountainTerrain from './MountainTerrain';
+import { getGlacierById } from '@/data/glaciers';
 
 interface GlacierSceneProps {
   selectedGlacier?: string;
   isMelting?: boolean;
   meltProgress?: number;
   showEducational?: boolean;
+  showHistorical?: boolean;
+  historicalYear?: number;
 }
-
-const MountainTerrain: React.FC = () => {
-  return (
-    <group position={[0, -1, 0]}>
-      {/* Base terrain */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[30, 30, 64, 64]} />
-        <meshStandardMaterial
-          color="#1a1a2e"
-          roughness={0.9}
-          metalness={0.1}
-        />
-      </mesh>
-      
-      {/* Mountain peaks */}
-      {[
-        { pos: [-5, 0, -8], scale: 3 },
-        { pos: [6, 0, -10], scale: 4 },
-        { pos: [-8, 0, -6], scale: 2.5 },
-        { pos: [8, 0, -7], scale: 2 },
-      ].map((mountain, i) => (
-        <mesh 
-          key={i} 
-          position={mountain.pos as [number, number, number]}
-          scale={mountain.scale}
-        >
-          <coneGeometry args={[1, 2, 6]} />
-          <meshStandardMaterial
-            color="#2a2a4a"
-            roughness={0.8}
-          />
-        </mesh>
-      ))}
-    </group>
-  );
-};
 
 const Lights: React.FC = () => {
   return (
     <>
-      <ambientLight intensity={0.3} color="#a0c4ff" />
+      <ambientLight intensity={0.35} color="#a8d4ff" />
       <directionalLight
         position={[10, 20, 10]}
-        intensity={1.5}
+        intensity={1.8}
         color="#ffffff"
         castShadow
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[1024, 1024]}
       />
       <pointLight
-        position={[-5, 5, 5]}
-        intensity={0.5}
+        position={[-8, 6, 6]}
+        intensity={0.6}
         color="#00d4ff"
       />
       <pointLight
-        position={[5, 3, -5]}
-        intensity={0.3}
+        position={[8, 4, -6]}
+        intensity={0.4}
         color="#80e0ff"
+      />
+      <hemisphereLight
+        args={['#87ceeb', '#2a3040', 0.4]}
       />
     </>
   );
@@ -76,65 +47,106 @@ const GlacierScene: React.FC<GlacierSceneProps> = ({
   isMelting = false,
   meltProgress = 0,
   showEducational = false,
+  showHistorical = false,
+  historicalYear = 2024,
 }) => {
+  // Get glacier data for terrain customization
+  const glacierData = useMemo(() => {
+    if (selectedGlacier) {
+      return getGlacierById(selectedGlacier);
+    }
+    return undefined;
+  }, [selectedGlacier]);
+
+  // Calculate historical scale factor
+  const historicalScale = useMemo(() => {
+    if (!showHistorical) return 1;
+    // Simulate glacier retreat over time (1990-2050)
+    const baseYear = 1990;
+    const yearDiff = historicalYear - baseYear;
+    const retreatRate = 0.005; // 0.5% per year
+    return Math.max(0.4, 1 - yearDiff * retreatRate);
+  }, [showHistorical, historicalYear]);
+
   return (
-    <Canvas shadows className="w-full h-full">
-      <PerspectiveCamera makeDefault position={[0, 3, 8]} fov={50} />
+    <Canvas 
+      shadows 
+      className="w-full h-full"
+      gl={{ 
+        antialias: true,
+        powerPreference: 'default',
+      }}
+    >
+      <PerspectiveCamera makeDefault position={[0, 5, 12]} fov={45} />
       
       <Suspense fallback={null}>
         <Lights />
         <Stars
-          radius={100}
-          depth={50}
-          count={3000}
-          factor={4}
+          radius={80}
+          depth={40}
+          count={2000}
+          factor={3}
           saturation={0}
           fade
-          speed={0.5}
+          speed={0.3}
         />
         
-        <MountainTerrain />
+        <MountainTerrain 
+          glacierData={glacierData ? {
+            elevation: glacierData.elevation,
+            area: glacierData.area,
+            id: glacierData.id,
+          } : undefined}
+          simplified={showEducational}
+        />
         
         {/* Main glacier */}
         <GlacierModel
-          position={[0, 0.5, 0]}
-          scale={1.5}
+          position={[0, 0.8, 0]}
+          scale={1.8 * historicalScale}
           glacierType="valley"
           isSelected={!!selectedGlacier}
           isMelting={isMelting}
           meltProgress={meltProgress}
+          glacierData={glacierData ? {
+            thickness: glacierData.thickness,
+            area: glacierData.area,
+            elevation: glacierData.elevation,
+          } : undefined}
         />
         
-        {/* Additional smaller glaciers */}
+        {/* Educational mode - show different glacier types */}
         {showEducational && (
           <>
             <GlacierModel
-              position={[-4, 0.3, -2]}
-              scale={0.6}
+              position={[-5, 0.5, -3]}
+              scale={0.7 * historicalScale}
               glacierType="mountain"
             />
             <GlacierModel
-              position={[4, 0.4, -3]}
-              scale={0.8}
+              position={[5, 0.6, -4]}
+              scale={0.9 * historicalScale}
               glacierType="piedmont"
             />
           </>
         )}
         
         <Environment preset="night" />
-        <fog attach="fog" args={['#0a0f1a', 15, 40]} />
+        <fog attach="fog" args={['#0a0f1a', 20, 50]} />
       </Suspense>
       
       <OrbitControls
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={3}
-        maxDistance={20}
-        minPolarAngle={0.2}
+        minDistance={5}
+        maxDistance={25}
+        minPolarAngle={0.3}
         maxPolarAngle={Math.PI / 2 - 0.1}
-        autoRotate={!selectedGlacier}
-        autoRotateSpeed={0.3}
+        autoRotate={!selectedGlacier && !isMelting}
+        autoRotateSpeed={0.2}
+        dampingFactor={0.05}
+        enableDamping={true}
       />
     </Canvas>
   );

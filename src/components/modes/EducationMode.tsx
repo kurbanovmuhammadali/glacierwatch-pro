@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, Snowflake, ThermometerSnowflake, Droplets, Info, RotateCcw } from 'lucide-react';
+import { Layers, Snowflake, ThermometerSnowflake, Droplets, Info, RotateCcw, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import GlacierScene from '@/components/glacier/GlacierScene';
 
 interface GlacierLayer {
@@ -59,15 +59,32 @@ const glacierFeatures = [
   },
 ];
 
+const historicalData = [
+  { year: 1990, description: 'Референсный год. Площадь ледников максимальна.' },
+  { year: 2000, description: 'Начало заметного отступления. Потеря ~5% площади.' },
+  { year: 2010, description: 'Ускорение таяния. Потеря ~15% от 1990 года.' },
+  { year: 2020, description: 'Критическое отступление. Потеря ~25% площади.' },
+  { year: 2030, description: 'Прогноз: потеря ~35% площади при текущих темпах.' },
+  { year: 2050, description: 'Прогноз: возможная потеря до 50% ледников.' },
+];
+
 const EducationMode: React.FC = () => {
   const [activeLayer, setActiveLayer] = useState<string | null>(null);
   const [showInfo, setShowInfo] = useState<number | null>(null);
+  const [showHistorical, setShowHistorical] = useState(false);
+  const [historicalYear, setHistoricalYear] = useState(2024);
+
+  const currentHistoricalData = historicalData.find(d => d.year <= historicalYear);
 
   return (
     <div className="relative w-full h-full">
       {/* 3D Glacier View */}
       <div className="absolute inset-0">
-        <GlacierScene showEducational={true} />
+        <GlacierScene 
+          showEducational={true}
+          showHistorical={showHistorical}
+          historicalYear={historicalYear}
+        />
       </div>
 
       {/* Educational Panel - Left */}
@@ -81,7 +98,7 @@ const EducationMode: React.FC = () => {
           </div>
 
           {/* Layer visualization */}
-          <div className="relative mb-4 rounded-lg overflow-hidden">
+          <div className="relative mb-4 rounded-lg overflow-hidden border border-primary/20">
             {glacierLayers.map((layer, index) => (
               <button
                 key={layer.id}
@@ -89,7 +106,7 @@ const EducationMode: React.FC = () => {
                 className={`
                   w-full p-3 text-left transition-all duration-300
                   ${layer.color}
-                  ${activeLayer === layer.id ? 'ring-2 ring-primary scale-[1.02]' : 'hover:brightness-110'}
+                  ${activeLayer === layer.id ? 'ring-2 ring-primary scale-[1.02] z-10' : 'hover:brightness-110'}
                   ${index === 0 ? 'rounded-t-lg' : ''}
                   ${index === glacierLayers.length - 1 ? 'rounded-b-lg' : ''}
                 `}
@@ -111,12 +128,74 @@ const EducationMode: React.FC = () => {
 
           {/* Active layer description */}
           {activeLayer && (
-            <div className="animate-fade-in-up bg-muted/50 rounded-lg p-3">
+            <div className="animate-fade-in-up bg-muted/50 rounded-lg p-3 mb-4">
               <p className="text-sm text-foreground">
                 {glacierLayers.find(l => l.id === activeLayer)?.description}
               </p>
             </div>
           )}
+
+          {/* Historical View Toggle */}
+          <div className="border-t border-border/50 pt-4">
+            <button
+              onClick={() => setShowHistorical(!showHistorical)}
+              className={`
+                w-full p-3 rounded-lg flex items-center gap-3 transition-all duration-300
+                ${showHistorical 
+                  ? 'bg-primary/20 border border-primary' 
+                  : 'bg-muted/30 border border-transparent hover:bg-muted/50'
+                }
+              `}
+            >
+              <Calendar className="w-5 h-5 text-primary" />
+              <div className="flex-1 text-left">
+                <span className="font-display text-sm block">Историческое сравнение</span>
+                <span className="text-[10px] text-muted-foreground">Смотрите изменения 1990-2050</span>
+              </div>
+            </button>
+
+            {showHistorical && (
+              <div className="mt-4 animate-fade-in-up">
+                <div className="flex items-center justify-between mb-2">
+                  <button
+                    onClick={() => setHistoricalYear(Math.max(1990, historicalYear - 10))}
+                    className="p-1 rounded hover:bg-muted/50"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <span className="font-display text-2xl text-primary">{historicalYear}</span>
+                  <button
+                    onClick={() => setHistoricalYear(Math.min(2050, historicalYear + 10))}
+                    className="p-1 rounded hover:bg-muted/50"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <input
+                  type="range"
+                  min="1990"
+                  max="2050"
+                  step="10"
+                  value={historicalYear}
+                  onChange={(e) => setHistoricalYear(parseInt(e.target.value))}
+                  className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+                
+                <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
+                  <span>1990</span>
+                  <span>2020</span>
+                  <span>2050</span>
+                </div>
+
+                {currentHistoricalData && (
+                  <div className="mt-3 p-2 bg-muted/30 rounded-lg">
+                    <p className="text-xs text-muted-foreground">{currentHistoricalData.description}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
