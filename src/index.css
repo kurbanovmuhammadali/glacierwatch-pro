@@ -2,95 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* NASA-Style Scientific Dark Theme - Glacier Analysis System */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Deep space dark backgrounds */
+    --background: 220 30% 6%;
+    --foreground: 200 20% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card surfaces with frosted glass effect */
+    --card: 220 25% 10%;
+    --card-foreground: 200 20% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover panels */
+    --popover: 220 28% 8%;
+    --popover-foreground: 200 20% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Ice Blue */
+    --primary: 195 100% 50%;
+    --primary-foreground: 220 30% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Deep Ocean */
+    --secondary: 210 40% 15%;
+    --secondary-foreground: 200 20% 90%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted surfaces */
+    --muted: 220 20% 14%;
+    --muted-foreground: 200 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Cyan Glow */
+    --accent: 185 100% 45%;
+    --accent-foreground: 220 30% 6%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Warning Red */
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs */
+    --border: 210 25% 20%;
+    --input: 210 25% 18%;
+    --ring: 195 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Custom glacier colors */
+    --glacier-ice: 195 80% 75%;
+    --glacier-deep: 200 70% 40%;
+    --glacier-glow: 185 100% 60%;
+    --glacier-melt: 200 90% 55%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Warning colors */
+    --warning: 35 95% 55%;
+    --warning-foreground: 35 95% 10%;
+    --success: 145 70% 45%;
+    --success-foreground: 145 70% 10%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Glass effects */
+    --glass-bg: 220 30% 10% / 0.7;
+    --glass-border: 200 30% 30% / 0.3;
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - NASA Control Panel */
+    --sidebar-background: 220 30% 8%;
+    --sidebar-foreground: 200 20% 85%;
+    --sidebar-primary: 195 100% 50%;
+    --sidebar-primary-foreground: 220 30% 6%;
+    --sidebar-accent: 185 100% 45%;
+    --sidebar-accent-foreground: 220 30% 6%;
+    --sidebar-border: 210 25% 18%;
+    --sidebar-ring: 195 100% 50%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 220 30% 6%;
+    --foreground: 200 20% 95%;
+    --card: 220 25% 10%;
+    --card-foreground: 200 20% 95%;
+    --popover: 220 28% 8%;
+    --popover-foreground: 200 20% 95%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 220 30% 6%;
+    --secondary: 210 40% 15%;
+    --secondary-foreground: 200 20% 90%;
+    --muted: 220 20% 14%;
+    --muted-foreground: 200 15% 55%;
+    --accent: 185 100% 45%;
+    --accent-foreground: 220 30% 6%;
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 25% 20%;
+    --input: 210 25% 18%;
+    --ring: 195 100% 50%;
   }
 }
 
@@ -99,7 +101,299 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    background: 
+      radial-gradient(ellipse at 20% 20%, hsl(210 50% 8%) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, hsl(200 40% 6%) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, hsl(220 30% 4%) 0%, hsl(220 30% 6%) 100%);
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
   }
 }
+
+@layer components {
+  /* Glass panel effect */
+  .glass-panel {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.8) 0%,
+      hsl(var(--card) / 0.6) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: 
+      0 8px 32px hsl(var(--background) / 0.5),
+      inset 0 1px 0 hsl(var(--primary) / 0.1);
+  }
+
+  /* Glowing border effect */
+  .glow-border {
+    @apply relative;
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.3),
+      inset 0 0 20px hsl(var(--primary) / 0.05);
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.5) 0%,
+      transparent 50%,
+      hsl(var(--accent) / 0.5) 100%
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Ice texture for glacier elements */
+  .ice-texture {
+    background: 
+      linear-gradient(135deg, 
+        hsl(195 80% 85% / 0.9) 0%,
+        hsl(200 70% 70% / 0.8) 25%,
+        hsl(195 80% 75% / 0.85) 50%,
+        hsl(205 60% 65% / 0.7) 75%,
+        hsl(200 70% 80% / 0.9) 100%
+      );
+    box-shadow: 
+      inset 0 0 30px hsl(195 80% 90% / 0.3),
+      0 0 40px hsl(195 100% 60% / 0.2);
+  }
+
+  /* Animated glow pulse */
+  .pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  /* Data readout style */
+  .data-readout {
+    @apply font-display tracking-wider;
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  /* Control button style */
+  .control-btn {
+    @apply glass-panel px-6 py-3 rounded-lg font-display tracking-wide uppercase text-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:scale-105 hover:shadow-lg;
+    @apply active:scale-95;
+  }
+
+  .control-btn:hover {
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.4),
+      0 10px 40px hsl(var(--background) / 0.5);
+  }
+
+  /* Mode selector tab */
+  .mode-tab {
+    @apply relative px-6 py-4 font-display tracking-wider uppercase text-sm;
+    @apply transition-all duration-300;
+  }
+
+  .mode-tab.active {
+    @apply text-primary;
+  }
+
+  .mode-tab.active::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-0.5;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.8);
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-panel rounded-xl p-4;
+    @apply border-l-2 border-l-primary;
+  }
+
+  /* Map marker */
+  .glacier-marker {
+    @apply relative;
+    animation: markerPulse 2s ease-in-out infinite;
+  }
+
+  .glacier-marker::after {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: hsl(var(--glacier-glow));
+    animation: markerRing 2s ease-out infinite;
+  }
+
+  /* Simulation controls */
+  .sim-slider {
+    @apply relative h-2 rounded-full overflow-hidden;
+    background: hsl(var(--muted));
+  }
+
+  .sim-slider-track {
+    @apply absolute inset-0 rounded-full;
+    background: linear-gradient(90deg, 
+      hsl(var(--success)) 0%,
+      hsl(var(--warning)) 50%,
+      hsl(var(--destructive)) 100%
+    );
+  }
+
+  /* Loading animation */
+  .scan-line {
+    @apply absolute left-0 right-0 h-px;
+    background: linear-gradient(90deg, 
+      transparent 0%,
+      hsl(var(--primary)) 50%,
+      transparent 100%
+    );
+    animation: scanLine 2s linear infinite;
+  }
+}
+
+/* Keyframe animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes markerPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes markerRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    top: -10%;
+  }
+  100% {
+    top: 110%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glacierCrack {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Utility animations */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }
