@@ -5,4 +5,4 @@
 - We use official scientific calculations and data but the information can be differ from official ones so don't rely on important information double-check it everytime
 
 
-# Done by: Global Challenges Club (located in Tajikistan, Technohub Dushanbe)
+## Done by: Global Challenges Club (located in Tajikistan, Technohub Dushanbe)
